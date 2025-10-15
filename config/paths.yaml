@@ -1,4 +1,0 @@
-data_path: data/bank-additional/bank-additional-full.csv
-figures_dir: experiments/figures
-results_dir: experiments/results
-models_dir: experiments/models
