@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Data Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide {
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px 80px;
+            display: none;
+            flex-direction: column;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            color: #667eea;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 48px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        h2 {
+            color: #764ba2;
+            font-size: 36px;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #667eea;
+            font-size: 28px;
+            margin: 25px 0 15px 0;
+        }
+
+        p, li {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        ul {
+            margin-left: 30px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .team-table {
+            width: 100%;
+            margin: 30px 0;
+            border-collapse: collapse;
+        }
+
+        .team-table th, .team-table td {
+            border: 2px solid #667eea;
+            padding: 15px;
+            text-align: left;
+            font-size: 20px;
+        }
+
+        .team-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        .team-table tr:nth-child(even) {
+            background: #f8f9ff;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #667eea20 0%, #764ba220 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .title-slide {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .title-slide h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+        }
+
+        .title-slide .subtitle {
+            font-size: 32px;
+            color: #764ba2;
+            margin-bottom: 50px;
+            font-weight: 600;
+        }
+
+        .member-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .member-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 22px;
+        }
+
+        .columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .column {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        strong {
+            color: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide">
+            <h1>Marketing Data Analysis<br>and Potential Customer Prediction</h1>
+            <div class="subtitle">Team 12</div>
+            <div class="member-grid">
+                <div class="member-card">
+                    <div>Nguyễn Công Đôn</div>
+                    <div>22133013</div>
+                </div>
+                <div class="member-card">
+                    <div>Mai Hồng Hải</div>
+                    <div>22133014</div>
+                </div>
+                <div class="member-card">
+                    <div>Nguyễn Ngọc Hiếu Hảo</div>
+                    <div>22133015</div>
+                </div>
+                <div class="member-card">
+                    <div>Nguyễn Tấn Hùng</div>
+                    <div>22133027</div>
+                </div>
+            </div>
+            <div class="slide-number">1/11</div>
+        </div>
+
+        <!-- Slide 2: Problem introduction -->
+        <div class="slide">
+            <h2>1. Problem Overview</h2>
+            <div class="highlight">
+                <h3>Context</h3>
+                <p>In the banking sector, approaching and convincing customers to subscribe to term deposits is a major challenge.</p>
+            </div>
+            <h3>Challenges</h3>
+            <ul>
+                <li>Telemarketing campaigns have low response rates</li>
+                <li>Not every customer is interested in the product</li>
+                <li>Campaign operating costs are high</li>
+            </ul>
+            <div class="highlight">
+                <h3>Core Problem</h3>
+                <p><strong>Predict the likelihood that a customer will subscribe to a term deposit</strong> based on personal information, campaign history, and macroeconomic indicators.</p>
+            </div>
+            <div class="slide-number">2/11</div>
+        </div>
+
+        <!-- Slide 3: Research questions -->
+        <div class="slide">
+            <h2>2. Research Questions</h2>
+            <div class="highlight">
+                <h3>Question 1</h3>
+                <p>Which customers are most likely to accept the term deposit offer?</p>
+            </div>
+            <div class="highlight">
+                <h3>Question 2</h3>
+                <p>Which factors (personal characteristics, marketing campaign attributes, or economic context) have the strongest impact on the decision?</p>
+            </div>
+            <div class="highlight">
+                <h3>Question 3</h3>
+                <p>Can we build a predictive model to help the bank optimize the marketing campaign, reduce unnecessary calls, and improve business outcomes?</p>
+            </div>
+            <div class="slide-number">3/11</div>
+        </div>
+
+        <!-- Slide 4: Research data -->
+        <div class="slide">
+            <h2>3. Research Data</h2>
+            <h3>Dataset: Bank Marketing - Additional Full</h3>
+            <div class="columns">
+                <div class="column">
+                    <p><strong>Source:</strong> UCI Machine Learning Repository</p>
+                    <p><strong>Size:</strong> 41,188 records</p>
+                    <p><strong>Variables:</strong> 20 input features + 1 target variable</p>
+                </div>
+                <div class="column">
+                    <p><strong>Origin:</strong> Portuguese bank</p>
+                    <p><strong>Period:</strong> 2008-2010</p>
+                    <p><strong>Collection method:</strong> Telephone survey</p>
+                </div>
+            </div>
+            <h3>Feature Groups</h3>
+            <ul>
+                <li><strong>Personal information:</strong> age, occupation, marital status, education, credit default</li>
+                <li><strong>Contact information:</strong> communication channel, call time, call duration</li>
+                <li><strong>Campaign information:</strong> number of contacts, days since last contact</li>
+                <li><strong>Economic indicators:</strong> employment rate, CPI, EURIBOR rate</li>
+                <li><strong>Target variable (y):</strong> yes/no - subscribed to the term deposit</li>
+            </ul>
+            <div class="slide-number">4/11</div>
+        </div>
+
+        <!-- Slide 5: Input -->
+        <div class="slide">
+            <h2>4. Input - Explanatory Variables</h2>
+            <div class="columns">
+                <div class="column">
+                    <h3>Personal Information</h3>
+                    <ul>
+                        <li>age: age</li>
+                        <li>job: occupation</li>
+                        <li>marital: marital status</li>
+                        <li>education: education level</li>
+                        <li>default: credit in default</li>
+                        <li>housing: housing loan</li>
+                        <li>loan: personal loan</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h3>Contact & Campaign</h3>
+                    <ul>
+                        <li>contact: communication type</li>
+                        <li>month: contact month</li>
+                        <li>day_of_week: contact day</li>
+                        <li>duration: call duration</li>
+                        <li>campaign: number of calls in current campaign</li>
+                        <li>pdays: days since previous contact</li>
+                        <li>previous: number of previous contacts</li>
+                        <li>poutcome: outcome of previous campaign</li>
+                    </ul>
+                </div>
+            </div>
+            <h3>Macroeconomic Indicators</h3>
+            <ul>
+                <li>emp.var.rate, cons.price.idx, cons.conf.idx, euribor3m, nr.employed</li>
+            </ul>
+            <div class="slide-number">5/11</div>
+        </div>
+
+        <!-- Slide 6: Output & Metrics -->
+        <div class="slide">
+            <h2>5. Output & Evaluation Metrics</h2>
+            <div class="highlight">
+                <h3>Output (Target Variable - Y)</h3>
+                <p><strong>y:</strong> Final outcome for each customer</p>
+                <ul>
+                    <li><strong>yes:</strong> Accepted the term deposit offer</li>
+                    <li><strong>no:</strong> Declined or not interested</li>
+                </ul>
+            </div>
+            <h3>Evaluation Metrics (Binary Classification)</h3>
+            <ul>
+                <li><strong>Accuracy:</strong> Overall correct prediction rate</li>
+                <li><strong>Precision:</strong> Correctness of positive predictions</li>
+                <li><strong>Recall:</strong> Coverage/sensitivity</li>
+                <li><strong>F1-score:</strong> Harmonic mean (important for imbalanced data)</li>
+                <li><strong>ROC-AUC:</strong> Ability to distinguish between classes</li>
+            </ul>
+            <div class="slide-number">6/11</div>
+        </div>
+
+        <!-- Slide 7: Proposed methods 1 -->
+        <div class="slide">
+            <h2>6. Proposed Methods (1/2)</h2>
+            <h3>Baseline Models</h3>
+            <div class="highlight">
+                <p><strong>Logistic Regression:</strong> Easy to interpret, captures linear relationships</p>
+                <p><strong>Decision Tree:</strong> Intuitive, uncovers decision rules</p>
+            </div>
+            <h3>Advanced Models</h3>
+            <ul>
+                <li><strong>Random Forest:</strong> Ensemble of trees that reduces overfitting</li>
+                <li><strong>Gradient Boosting (XGBoost):</strong> High performance on imbalanced data</li>
+                <li><strong>Neural Networks:</strong> Capture complex nonlinear relationships</li>
+            </ul>
+            <div class="slide-number">7/11</div>
+        </div>
+
+        <!-- Slide 8: Proposed methods 2 -->
+        <div class="slide">
+            <h2>6. Proposed Methods (2/2)</h2>
+            <h3>Supporting Techniques</h3>
+            <ul>
+                <li><strong>Handling class imbalance:</strong> SMOTE, class weights</li>
+                <li><strong>Feature Engineering:</strong> Standardization, encoding, feature selection</li>
+                <li><strong>Cross-validation:</strong> Assess model stability</li>
+            </ul>
+            <h3>Answering the Research Questions</h3>
+            <div class="highlight">
+                <p><strong>Prospective customers?</strong> → Analyze predicted probabilities</p>
+                <p><strong>Key drivers?</strong> → Feature importance, SHAP values</p>
+                <p><strong>Campaign optimization?</strong> → Compare metrics, estimate business impact</p>
+            </div>
+            <div class="slide-number">8/11</div>
+        </div>
+
+        <!-- Slide 9: Implementation plan -->
+        <div class="slide">
+            <h2>7. Implementation Plan</h2>
+            <h3>Goal</h3>
+            <p>Build a predictive model for potential customers with actionable insights</p>
+            <h3>Execution Steps</h3>
+            <ul>
+                <li><strong>Step 1:</strong> Align objectives, cost/benefit targets, and preprocessing workflow</li>
+                <li><strong>Step 2:</strong> Conduct EDA by assigned area and capture preliminary insights</li>
+                <li><strong>Step 3:</strong> Train models (ML/DL with PySpark/PyTorch)</li>
+                <li><strong>Step 4:</strong> Calibrate probabilities and select thresholds based on profit</li>
+                <li><strong>Step 5:</strong> Derive actionable insights from the results</li>
+                <li><strong>Step 6:</strong> Consolidate, compare, and choose the best model</li>
+            </ul>
+            <div class="slide-number">9/11</div>
+        </div>
+
+        <!-- Slide 10: Work allocation 1 -->
+        <div class="slide">
+            <h2>8. Work Allocation (1/2)</h2>
+            <div class="highlight">
+                <h3>Hung - Customer Profiles</h3>
+                <p><strong>EDA:</strong> Analyze personal characteristics and conversion rate</p>
+                <p><strong>Model:</strong> Logistic Regression</p>
+                <p><strong>Objective:</strong> Rank prospects and segment customers</p>
+            </div>
+            <div class="highlight">
+                <h3>Don - Channel & Timing</h3>
+                <p><strong>EDA:</strong> Analyze contact channel, month, and weekday</p>
+                <p><strong>Model:</strong> CatBoost, Logistic Regression</p>
+                <p><strong>Objective:</strong> Optimize schedule and contact channel</p>
+            </div>
+            <div class="slide-number">10/11</div>
+        </div>
+
+        <!-- Slide 11: Work allocation 2 -->
+        <div class="slide">
+            <h2>8. Work Allocation (2/2)</h2>
+            <div class="highlight">
+                <h3>Hai - Contact Frequency & Callbacks</h3>
+                <p><strong>EDA:</strong> Number of calls, interval since last contact, previous outcome</p>
+                <p><strong>Model:</strong> Random Forest/GBT with PySpark</p>
+                <p><strong>Objective:</strong> Optimize number of calls and callback intervals</p>
+            </div>
+            <div class="highlight">
+                <h3>Hao - Economic Context & Synthesis</h3>
+                <p><strong>EDA:</strong> Analyze macroeconomic variables over time</p>
+                <p><strong>Model:</strong> LightGBM/CatBoost or calibrated MLP</p>
+                <p><strong>Objective:</strong> Adjust quotas by seasonality and economic context</p>
+            </div>
+            <div class="slide-number">11/11</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn" onclick="changeSlide(-1)">◀ Previous</button>
+        <button id="nextBtn" onclick="changeSlide(1)">Next ▶</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>
