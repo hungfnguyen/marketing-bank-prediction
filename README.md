@@ -62,4 +62,3 @@ Ghi chu:
 3. Truu xuat ham chung sang `src/`, dat test don gian neu can.
 4. Chuan hoa bao cao trong `reports/` theo cac moc thoi gian Giang vien yeu cau.
 
-Cam on moi nguoi tuan thu cau truc nay de lam viec hieu qua.

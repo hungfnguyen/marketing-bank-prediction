@@ -1,1 +1,39 @@
 AGENTS.md
+
+# Python caches
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editors/OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Data artifacts (giu nguyen data/bank-additional trong repo)
+data/raw/
+data/processed/
+
+# Models/outputs/logs
+artifacts/
+logs/
+
+# Spark/Java temp
+metastore_db/
+derby.log
+.sparkStaging/
+
+# Env files
+.env
+*.env
+.env.*
