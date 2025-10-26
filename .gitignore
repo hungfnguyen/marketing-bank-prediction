@@ -37,3 +37,4 @@ derby.log
 .env
 *.env
 .env.*
+note_hung
